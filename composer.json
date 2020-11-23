@@ -19,9 +19,15 @@
         "wordplate/acf": "^8.5",
         "illuminate/filesystem": "^8.15"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16"
+    },
     "autoload": {
         "psr-4": {
             "StarringJane\\GutenbergBlocks\\": "src/"
         }
+    },
+    "scripts": {
+        "format": "php vendor/bin/php-cs-fixer fix --config=.php_cs"
     }
 }
