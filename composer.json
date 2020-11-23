@@ -1,0 +1,27 @@
+{
+    "name": "starring-jane/acf-gutenberg-blocks",
+    "description": "An elegant way for developers to register Gutenberg blocks using the ACF PRO blocks feature",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxim Vanhove",
+            "email": "maxim@starringjane.com"
+        },
+        {
+            "name": "Laurens Bultynck",
+            "email": "laurens@starringjane.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">7.0",
+        "wordplate/acf": "^8.5",
+        "illuminate/filesystem": "^8.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "StarringJane\\GutenbergBlocks\\": "src/"
+        }
+    }
+}
