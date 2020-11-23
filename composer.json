@@ -2,6 +2,7 @@
     "name": "starring-jane/acf-gutenberg-blocks",
     "description": "An elegant way for developers to register Gutenberg blocks using the ACF PRO blocks feature",
     "type": "library",
+    "homepage": "https://starringjane.com",
     "license": "MIT",
     "authors": [
         {
