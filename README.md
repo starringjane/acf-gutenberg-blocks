@@ -193,6 +193,27 @@ public function render()
 ```
 
 Another great option is to use our [Wordpress Blade package](https://github.com/starringjane/wordpress-blade) for this. That will enable a lot of useful features for handling the views for the custom blocks.
+To use blade when rendering you only need to include the provided trait:
+
+```php
+use StarringJane\GutenbergBlocks\Block;
+use StarringJane\WordpressBlade\RendersBlade;
+
+class MyCustomBlock extends Block
+{
+    use RendersBlade;
+
+    // ...
+
+    public function render()
+    {
+        return $this->view('blade.custom-block', [
+            'data' => $this->data(),
+        ]);
+    }
+}
+
+```
 
 ## License
 
