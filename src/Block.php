@@ -28,7 +28,7 @@ abstract class Block
 
     protected $allow_multiple = true;
 
-    protected $parent = [];
+    protected $parent = null;
 
     protected $inner_blocks = false;
 
@@ -52,7 +52,7 @@ abstract class Block
     public function location()
     {
         return [
-            Location::if('block', $this->__toString()),
+            Location::if('block', 'acf/' . $this->name),
         ];
     }
 
@@ -72,8 +72,8 @@ abstract class Block
     {
         acf_register_block_type([
             'name' => $this->name,
-            'title' => $this->title,
-            'description' => $this->description,
+            'title' => __($this->title),
+            'description' => __($this->description),
             'keywords' => $this->keywords,
             'category' => $this->category,
             'icon' => $this->icon,
@@ -88,7 +88,7 @@ abstract class Block
             ],
             'render_callback' => function ($block) {
                 echo '<div class="'. trim(implode(' ', $this->classes($block))) .'">';
-                echo $this->render();
+                echo $this->render()->toHtml() ?? $this->render();
                 echo '</div>';
             },
         ]);
@@ -99,7 +99,7 @@ abstract class Block
         return [
             'wp-blocks-block',
             'wp-block-' .$this->name,
-            $block['className'] ?: '',
+            $block['className'] ?? '',
             $block['align'] ? 'align' . $block['align'] : '',
         ];
     }
@@ -113,10 +113,5 @@ abstract class Block
     public function __destruct()
     {
         $this->register();
-    }
-
-    public function __toString()
-    {
-        return 'acf/' . $this->name;
     }
 }
