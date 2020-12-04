@@ -6,6 +6,8 @@ use Illuminate\Filesystem\Filesystem;
 
 class Gutenberg
 {
+    public static $wrapping = true;
+
     public static function register($blocksOrPath)
     {
         $blocks = [];
@@ -30,5 +32,10 @@ class Gutenberg
         foreach ($blocks as $block) {
             new $block();
         }
+    }
+
+    public static function withoutWrapping()
+    {
+        self::$wrapping = false;
     }
 }
