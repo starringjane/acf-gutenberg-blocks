@@ -69,6 +69,10 @@ protected $allow_mode_switch = true;
 protected $allow_multiple = true;
 
 protected $parent = [];
+
+protected $inner_blocks = false;
+
+protected $wrap = true;
 ```
 
 ## Register blocks
@@ -108,7 +112,6 @@ class ChildBlock extends Block
 ```
 
 > For the child block to be selectable within the parent block you will need to set `$inner_blocks = true` on the parent block.
-
 
 ## Configure fields
 
@@ -155,22 +158,23 @@ $body = $this->get('body', 'Hello world!');
 
 By default a few classes are added to the wrapper HTML-element to be able to add general styles and specific styles for blocks and respect the alignment and other input from the Gutenberg editor.
 
-You can override or extend the classes that are added by defining your own `classes` method:
+You can simply fetch the CSS-classes using `getClasses()`.  
+To override or extend the classes that are added by defining your own `setClasses()`:
 
 ```php
 // Override the default classes
-protected function classes($block)
+protected function setClasses($block)
 {
     return [
-        'my-custom-css-class'
-        //...
-    ];
+        'my-custom-css-class',
+        //
+    ]);
 }
 
 // Extend the default classes
-protected function classes($block)
+protected function setClasses($block)
 {
-    return array_merge(parent::classes($block), [
+    return array_merge(parent::setClasses($block), [
         'my-custom-css-class',
     ]);
 }
@@ -214,6 +218,23 @@ class MyCustomBlock extends Block
 }
 
 ```
+
+### Wrapper Element
+
+By default every block is wrapped in a `<div>` with the default classes when rendered. You can disable this globally by calling `Gutenberg::withoutWrapping()` **before** registering blocks.
+
+When wrapping is disabled and you want to add the default CSS-classes in your own template you can add them like so:
+
+```php
+public function render()
+{
+    // Make the CSS-classes available as a variable in the template
+    set_query_var('default_classes', $this->getClasses());
+
+    return get_template_part('path-to-my-block-template');
+}
+```
+
 
 ## License
 

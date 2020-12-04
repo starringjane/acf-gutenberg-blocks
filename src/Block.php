@@ -32,6 +32,10 @@ abstract class Block
 
     protected $inner_blocks = false;
 
+    protected $wrap = true;
+
+    private $classes = [];
+
     abstract public function render();
 
     public function fields()
@@ -87,21 +91,45 @@ abstract class Block
                 'jsx' => $this->inner_blocks,
             ],
             'render_callback' => function ($block) {
-                echo '<div class="'. trim(implode(' ', $this->classes($block))) .'">';
+                $this->setClasses($block);
+
+                if ($this->wrappingEnabled()) {
+                    echo '<div class="'. trim(implode(' ', $this->getClasses())) .'">';
+                }
+
                 echo $this->render()->toHtml() ?? $this->render();
-                echo '</div>';
+
+                if ($this->wrappingEnabled()) {
+                    echo '</div>';
+                }
             },
         ]);
     }
 
-    protected function classes($block)
+    protected function setClasses($block)
     {
-        return [
+        $classes = array_merge($this->classes, [
             'wp-blocks-block',
             'wp-block-' .$this->name,
             $block['className'] ?? '',
             $block['align'] ? 'align' . $block['align'] : '',
-        ];
+        ]);
+
+        $this->classes = array_filter($classes);
+    }
+
+    protected function getClasses()
+    {
+        return $this->classes;
+    }
+
+    private function wrappingEnabled()
+    {
+        if (!Gutenberg::$wrapping) {
+            return false;
+        }
+
+        return $this->wrap;
     }
 
     private function register()
